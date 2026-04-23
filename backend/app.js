@@ -5,6 +5,7 @@ const Listing=require("./models/listing.js");
 const path =require("path");
 const methodOverride=require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync= require("./utils/wrapAsync.js");
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -43,13 +44,14 @@ app.get("/listings/:id", async(req,res)=>{ // 1. req from index route 2. take re
 });
 
 //create route 4.
-app.post("/listings", async(req,res)=>{  // 1. all data will come in the body 2.exract and use mongodb single insert command
+app.post("/listings", wrapAsync( async(req,res,next)=>{  // 1. all data will come in the body 2.exract and use mongodb single insert command
  // {title,description,img....location}=req.body old method
  //let listing=req.body.listing;
  const newlisting= new Listing(req.body.listing);  // tips: best way to reqire from body 'name "listing[title]"' in new.ejs
  await newlisting.save();
  res.redirect("/listings");
-});
+})
+);
 
 //edit route 5.
 app.get("/listings/:id/edit",async(req,res)=>{ //1. show ejs add link /id req 2. edit.ejs form to take data and in action=send put req 
@@ -59,12 +61,13 @@ app.get("/listings/:id/edit",async(req,res)=>{ //1. show ejs add link /id req 2.
 });
 
 // update route 6.
-app.put("/listings/:id", async(req,res)=>{ // 1. got all data frrom edit.ejs 
+    app.put("/listings/:id", async(req,res)=>{ // 1. got all data frrom edit.ejs 
     let {id}=req.params;
     await Listing.findByIdAndUpdate(id,{...req.body.listing}); //2. find and update though put req 
     res.redirect(`/listings/${id}`);
     // console.log(req.body.listing);
 });
+    
 
 // delete route
 app.delete("/listings/:id",async(req,res)=>{ // 1. show.ejs add form action "/listings/:id" (for delete req)
@@ -89,6 +92,10 @@ app.delete("/listings/:id",async(req,res)=>{ // 1. show.ejs add form action "/li
 // });
 app.get("/",(req,res)=>{
    res.send("I AM GROOT");
+});
+
+app.use((err,req,res,next)=>{
+    res.send("something went wrong");
 });
 app.listen(8080,()=>{
     console.log("server is listening to port 8080");
