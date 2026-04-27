@@ -1,7 +1,8 @@
 const mongoose =require("mongoose");
-const review = require("./review");
+// const review = require("./review");
 const { ref } = require("joi");
 const Schema=mongoose.Schema;
+const Review = require("./review.js");
 
 const listingSchema=new Schema({
     title:{
@@ -43,5 +44,10 @@ const listingSchema=new Schema({
     ],
 });
 
+listingSchema.post("findOneAndDelete",async(listing)=>{  // 1.if we call delete listing it will activate this function be called
+    if(listing){
+        await Review.deleteMany({_id:{$in : listing.reviews}}); //2. it will delete all review in the Review collection which have that listing_id 
+    }
+});
 const Listing=mongoose.model("Listing",listingSchema);
 module.exports=Listing;
