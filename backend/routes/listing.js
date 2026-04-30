@@ -45,6 +45,7 @@ router.post("/",validateListing, wrapAsync( async(req,res,next)=>{  // 1. all da
  listingSchema.validate(req.body);
  const newlisting= new Listing(req.body.listing);  // tips: best way to reqire from body 'name "listing[title]"' in new.ejs
  await newlisting.save();
+ req.flash("success","New Listing Created!");
  res.redirect("/listings");
 })
 );

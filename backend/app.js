@@ -14,6 +14,8 @@ const listings= require("./routes/listing.js");
 const reviews= require("./routes/review.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const session= require("express-session");
+const flash= require("connect-flash");
 
 main().then(()=>{console.log("connected to db")})
     .catch((err)=>{
@@ -33,15 +35,35 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 
 
-app.use("/listings",listings);
-app.use("/listings/:id/reviews",reviews);
 
 
 
+const sessionOptions={
+    secret:"mysupersecretcode",
+    resave:false,
+    saveUninitialized: true,
+    cookie:{
+        expires: Date.now () +7*24*60*60*1000,
+        maxAge:7*24*60*60*1000,
+        httpOnly: true,
+    },
+};
 
 app.get("/",(req,res)=>{
    res.send("I AM GROOT");
 });
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+    next();
+});
+
+app.use("/listings",listings);
+app.use("/listings/:id/reviews",reviews);
+
 app.all(/(.*)/,(req,res,next)=>{
     next(new ExpressError(505,"page not found..!"));
 });
