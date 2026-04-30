@@ -28,6 +28,7 @@ router.post("/",validateReview,wrapAsync(async(req,res)=>{  // 1.create form in 
 
     await newReview.save();
     await listing.save();
+    req.flash("success","New Review Created");
 
    res.redirect(`/listings/${listing.id}`);
 
@@ -39,6 +40,7 @@ router.delete("/:reviewId",wrapAsync(async(req,res)=>{ // 1.create form in show.
   let {id,reviewId} = req.params; //2. reqire all data and collet id's
   await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewId}}); //3. use find and update to delete all reviewid which match with review arry in listings
   await Review.findByIdAndDelete(reviewId); // 4. findanddelete to delete the matched reviewID from its collection callled Review
+  req.flash("success","Review Deleted!");
   res.redirect(`/listings/${id}`);
 })); 
 

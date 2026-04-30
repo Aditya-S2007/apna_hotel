@@ -34,6 +34,10 @@ router.get("/new",(req,res)=>{  // 1. index ejs new get req "/listins/new" in fo
 router.get("/:id",wrapAsync( async(req,res)=>{ // 1. req from index route 2. take req id and find 3. render and print all detail in show ejs
     let {id}= req.params;
     const listing = await Listing.findById(id).populate("reviews");
+    if(!listing){
+      req.flash("error","Listing u requested for doesn't exit!");
+      return res.redirect("/listings");
+    }
     res.render("listings/show.ejs",{listing});
 })
 );
@@ -54,6 +58,10 @@ router.post("/",validateListing, wrapAsync( async(req,res,next)=>{  // 1. all da
 router.get("/:id/edit", wrapAsync( async(req,res)=>{ //1. show ejs add link /id req 2. edit.ejs form to take data and in action=send put req 
     let {id}= req.params;
     const listing = await Listing.findById(id);
+     if(!listing){
+      req.flash("error","Listing u requested for doesn't exit!");
+      return res.redirect("/listings");
+    }
     res.render("listings/edit.ejs",{listing});
 })
 );
@@ -66,7 +74,9 @@ router.put(
    
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing }); //2. find and update though put req
+    req.flash("success"," Listing Update!");
     res.redirect(`/listings/${id}`);
+    
     // console.log(req.body.listing);
   }),
 );
@@ -76,8 +86,10 @@ router.put(
 router.delete("/:id",wrapAsync( async(req,res)=>{ // 1. show.ejs add form action "/listings/:id" (for delete req)
     let {id}=req.params;
     let deleteListing= await Listing.findByIdAndDelete(id); // 2. find and delete
+   console.log(deleteListing);
+    req.flash("success","Listing Deleted!");
     res.redirect("/listings");
-    console.log(deleteListing);
+    
 })
 );
 
