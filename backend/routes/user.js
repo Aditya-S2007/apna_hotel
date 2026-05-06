@@ -3,6 +3,7 @@ const router = express.Router();  //{mergeParams:true}
 const User= require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
+const { saveredirectUrl } = require("../middleware.js");
 
 
 router.get("/signup",(req,res)=>{
@@ -32,9 +33,10 @@ router.get("/login",(req,res)=>{
     res.render("users/login.ejs");
 });
 
-router.post("/login",passport.authenticate("local",{failureRedirect:"/login",failureFlash:true}),async (req,res)=>{ // authi will help with built in authentiation then our stratgy is "local" , f.r "if we fail it will redirect to login page" , f.f "it will flash the error"
+router.post("/login",saveredirectUrl,passport.authenticate("local",{failureRedirect:"/login",failureFlash:true}),async (req,res)=>{ // authi will help with built in authentiation then our stratgy is "local" , f.r "if we fail it will redirect to login page" , f.f "it will flash the error"
    req.flash("success","Welcome back master.... its ur Wanderlust 😘");
-   res.redirect("/listings");
+   let redirectUrl=res.locals.redirectUrl || "/listings"
+   res.redirect(redirectUrl);
 });
 
 //logout

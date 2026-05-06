@@ -42,6 +42,10 @@ const listingSchema=new Schema({
             ref:"Review",
         },
     ],
+    owner:{
+        type:Schema.Types.ObjectId,
+        ref:"User",
+    },
 });
 
 listingSchema.post("findOneAndDelete",async(listing)=>{  // 1.if we call delete listing it will activate this function be called
