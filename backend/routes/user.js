@@ -15,8 +15,13 @@ router.post("/signup",wrapAsync(async(req,res)=>{
     const newUser= new User ({email,username}); // creating new document in user collection
     const registeredUser= await User.register(newUser,password); // insert schema with user password
     console.log(registeredUser);
-    req.flash("success","Welcome to Wanderlust"); // to flash msg of success
-    res.redirect("/listings");
+   req.login(registereduser,(err)=>{
+            if(err){
+                return next(err);
+            }
+            req.flash("success","Welcome to Airbnb"); // to flash msg of success
+            res.redirect("/listings");
+        });
     } catch (e) {
        req.flash("error",e.message); // to convert error of flash msg
        res.redirect("/signup"); 
