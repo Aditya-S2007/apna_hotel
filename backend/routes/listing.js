@@ -1,22 +1,12 @@
 const express = require("express");
 const router=express.Router();
 const wrapAsync= require("../utils/wrapAsync.js");
-const ExpressError= require("../utils/ExpressError.js");
-const { listingSchema, reviewSchema } = require("../schema.js");
 const Listing=require("../models/listing.js");
-const {isLoggedIn} =require("../middleware.js");
+const {isLoggedIn, isOwner,validateListing} =require("../middleware.js");
+const { listingSchema, reviewSchema } = require("../schema.js");
 
 
-const validateListing = (req, res, next) => {
-  let {error} = listingSchema.validate(req.body);
-  
-  if (error) {
-    let errMsg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(400, errMsg);
-  } else{
-    next();
-  }
-};
+
 
 
 // index route 1.
@@ -51,7 +41,7 @@ router.post("/",isLoggedIn,validateListing, wrapAsync( async(req,res,next)=>{  /
  //let listing=req.body.listing;
  listingSchema.validate(req.body);
  const newlisting= new Listing(req.body.listing);  // tips: best way to reqire from body 'name "listing[title]"' in new.ejs
- newListing.owner = req.user._id; // its will new user owned_by is current user
+ newlisting.owner = req.user._id; // its will new user owned_by is current user
  await newlisting.save();
  req.flash("success","New Listing Created!");
  res.redirect("/listings");
@@ -59,7 +49,7 @@ router.post("/",isLoggedIn,validateListing, wrapAsync( async(req,res,next)=>{  /
 );
 
 //edit route 5.
-router.get("/:id/edit",isLoggedIn, wrapAsync( async(req,res)=>{ //1. show ejs add link /id req 2. edit.ejs form to take data and in action=send put req 
+router.get("/:id/edit",isLoggedIn,isOwner, wrapAsync( async(req,res)=>{ //1. show ejs add link /id req 2. edit.ejs form to take data and in action=send put req 
     let {id}= req.params;
     const listing = await Listing.findById(id);
      if(!listing){
@@ -72,7 +62,7 @@ router.get("/:id/edit",isLoggedIn, wrapAsync( async(req,res)=>{ //1. show ejs ad
 
 // update route 6.
 router.put(
-  "/:id",isLoggedIn,validateListing,
+  "/:id",isLoggedIn,isOwner,validateListing,
   wrapAsync(async (req, res) => {
     // 1. got all data frrom edit.ejs
    
@@ -87,7 +77,7 @@ router.put(
     
 
 // delete route
-router.delete("/:id",isLoggedIn,wrapAsync( async(req,res)=>{ // 1. show.ejs add form action "/listings/:id" (for delete req)
+router.delete("/:id",isLoggedIn,isOwner,wrapAsync( async(req,res)=>{ // 1. show.ejs add form action "/listings/:id" (for delete req)
     let {id}=req.params;
     let deleteListing= await Listing.findByIdAndDelete(id); // 2. find and delete
    console.log(deleteListing);

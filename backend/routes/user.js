@@ -16,7 +16,7 @@ router.post("/signup",wrapAsync(async(req,res)=>{
     const newUser= new User ({email,username}); // creating new document in user collection
     const registeredUser= await User.register(newUser,password); // insert schema with user password
     console.log(registeredUser);
-   req.login(registereduser,(err)=>{
+   req.login(registeredUser,(err)=>{
             if(err){
                 return next(err);
             }
