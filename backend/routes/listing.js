@@ -9,35 +9,49 @@ const listingController = require("../controllers/listings.js");
 
 
 
-
-
-// index route 1.
-router.get("/",wrapAsync(listingController.index));
+router.route("/")
+.get(wrapAsync(listingController.index))
+.post(isLoggedIn,validateListing, wrapAsync(listingController.createListing )
+);
 
 // new route 3.
 router.get("/new",isLoggedIn,listingController.renderNewForm);
 
-// show route 2.
-router.get("/:id",wrapAsync(listingController.showListing)
-);
-
-//create route 4.
-router.post("/",isLoggedIn,validateListing, wrapAsync(listingController.createListing )
-);
+router.route("/:id")
+.get(wrapAsync(listingController.showListing))
+.put(
+  isLoggedIn,isOwner,validateListing,
+  wrapAsync(listingController.updateListing))
+.delete(isLoggedIn,isOwner,wrapAsync(listingController.destroyLisitng));
 
 //edit route 5.
-router.get("/:id/edit",isLoggedIn,isOwner, wrapAsync(listingController.renderEditForm)
-);
+router.get("/:id/edit",isLoggedIn,isOwner, wrapAsync(listingController.renderEditForm));
+
+
+// index route 1.
+// router.get("/",wrapAsync(listingController.index));
+
+
+
+// show route 2.
+// router.get("/:id",wrapAsync(listingController.showListing)
+// );
+
+//create route 4.
+// router.post("/",isLoggedIn,validateListing, wrapAsync(listingController.createListing )
+// );
+
+
 
 // update route 6.
-router.put(
-  "/:id",isLoggedIn,isOwner,validateListing,
-  wrapAsync(listingController.updateListing)
-);
+// router.put(
+//   "/:id",isLoggedIn,isOwner,validateListing,
+//   wrapAsync(listingController.updateListing)
+// );
     
 
 // delete route
-router.delete("/:id",isLoggedIn,isOwner,wrapAsync(listingController.destroyLisitng)
-);
+// router.delete("/:id",isLoggedIn,isOwner,wrapAsync(listingController.destroyLisitng)
+// );
 
 module.exports=router;
