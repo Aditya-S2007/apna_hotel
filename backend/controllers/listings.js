@@ -34,9 +34,14 @@ module.exports.showListing= async(req,res)=>{ // 1. req from index route 2. take
 module.exports.createListing=async(req,res,next)=>{  // 1. all data will come in the body 2.exract and use mongodb single insert command
  // {title,description,img....location}=req.body old method
  //let listing=req.body.listing;
+let url=req.file.path;
+let filename= req.file.filename;
+console.log(url,"..",filename);
+
  listingSchema.validate(req.body);
  const newlisting= new Listing(req.body.listing);  // tips: best way to reqire from body 'name "listing[title]"' in new.ejs
  newlisting.owner = req.user._id; // its will new user owned_by is current user
+ newlisting.image = {url,filename};
  await newlisting.save();
  req.flash("success","New Listing Created!");
  res.redirect("/listings");

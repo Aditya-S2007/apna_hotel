@@ -1,3 +1,9 @@
+if(process.env.NODE_ENV != "production"){  //this is only used in devlopment proccess not in production phase
+    require("dotenv").config();
+}
+
+// console.log(process.env.SECRET);
+
 const express=require("express");
 const app = express();
 const mongoose= require("mongoose");
