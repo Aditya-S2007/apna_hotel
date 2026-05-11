@@ -75,6 +75,7 @@ app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     res.locals.error= req.flash("error");
     res.locals.currUser = req.user;
+    res.locals.MAPTILER_API_KEY =process.env.MAPTILER_API_KEY;
     next();
 });
 

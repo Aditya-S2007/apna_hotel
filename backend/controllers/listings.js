@@ -54,14 +54,23 @@ module.exports.renderEditForm=async(req,res)=>{ //1. show ejs add link /id req 2
       req.flash("error","Listing u requested for doesn't exit!");
       return res.redirect("/listings");
     }
-    res.render("listings/edit.ejs",{listing});
+    let originalImageUrl = listing.image.url;
+    originalImageUrl=originalImageUrl.replace("/upload","/upload/h_300,w_250"); // this is to crop image using cloudinary api
+    res.render("listings/edit.ejs",{listing,originalImageUrl});
 };
 
 module.exports.updateListing=async (req, res) => {
     // 1. got all data frrom edit.ejs
    
     let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing }); //2. find and update though put req
+    const listing= await Listing.findByIdAndUpdate(id, { ...req.body.listing }); //2. find and update though put req
+    if(typeof req.file !=="undefined"){  // it will change to new img but if we didn't change it will remain same
+    let url = req.file.path;           //if it came undefined the if condition will not run
+    let filename = req.file.filename;
+    listing.image = { url,filename };
+    await listing.save();
+  }
+
     req.flash("success"," Listing Update!");
     res.redirect(`/listings/${id}`);
     
