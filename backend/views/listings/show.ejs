@@ -140,10 +140,12 @@
                 center: [lng, lat],
                 zoom: 13,
                 scrollZoom: false, // prevents page scroll from zooming map
+                // navigationControl: "top-right",
             });
+            map.addControl(new maptilersdk.MaptilerNavigationControl(), "top-right");
 
             // Step 3: Add Airbnb-style privacy circle (shows area, not exact address)
-            map.on("load", () => {
+                map.on("load", () => {
                 map.addSource("location-circle", {
                     type: "geojson",
                     data: {
@@ -152,7 +154,7 @@
                     }
                 });
 
-                map.addLayer({
+                    map.addLayer({
                     id: "location-circle-fill",
                     type: "circle",
                     source: "location-circle",
@@ -163,9 +165,9 @@
                         "circle-stroke-width": 2,
                         "circle-stroke-color": "#FF385C",
                         "circle-stroke-opacity": 0.4,
-                    }
-                });
-            });
+                            }
+                        });
+                    });
 
             // Step 4: Add marker with popup
             const popup = new maptilersdk.Popup({ offset: 25, closeButton: false })

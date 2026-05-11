@@ -59,9 +59,9 @@ const sessionOptions={
     },
 };
 
-app.get("/",(req,res)=>{
-   res.send("I AM GROOT");
-});
+// app.get("/",(req,res)=>{
+//    res.send("I AM GROOT");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash());
