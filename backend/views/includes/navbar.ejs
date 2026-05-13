@@ -1,39 +1,36 @@
-
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
-    
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <!-- Left -->
       <div class="navbar-nav">
-        <!-- <a class="nav-link"  href="/">Home</a> -->
         <a class="nav-link" href="/listings">Explore</a>
-        
-        <div class="navbar-nav ms-auto">
-          <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-          <button class="btn btn-danger rounded-pill ms-2  " type="submit">Search</button>
-          </form>
-        </div>
       </div>
-      <div class="navbar-nav ms-auto">
+
+      <!-- Center -->
+      <form class="d-flex mx-auto" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-danger rounded-pill" type="submit">Search</button>
+      </form>
+
+      <!-- Right -->
+       <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listings/new">Airbnb your home</a>
-        <% if(!currUser) { %>
-        <a class="nav-link "  href="/signup"><b>Sign up</b></a>
-        <a class="nav-link " href="/login"> <b>Log in</b></a>
-        <% } %>
-        <% if(currUser) { %>
-        <a class="nav-link " href="/logout"><b>Log out</b></a>
-        <% } %>
-        
+        <!-- TEMP DEBUG -->
+        <span class="nav-link"><%= JSON.stringify(locals.currUser) %></span>
+                <% if(currUser) { %>
+            <a class="nav-link" href="/logout"><b>Log out</b></a>
+          <% } else { %>
+            <a class="nav-link" href="/signup"><b>Sign up</b></a>
+            <a class="nav-link" href="/login"><b>Log in</b></a>
+          <% } %>
       </div>
+      
+
     </div>
   </div>
 </nav>
