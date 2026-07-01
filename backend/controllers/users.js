@@ -4,7 +4,7 @@ module.exports.renderSignupForm=(req,res)=>{
     res.render("users/signup.ejs");
 };
 
-module.exports.signup=async(req,res)=>{
+module.exports.signup=async(req,res,next)=>{
     try {
         let{username,email,password} = req.body; // to exract data from form in signup.ejs
     const newUser= new User ({email,username}); // creating new document in user collection

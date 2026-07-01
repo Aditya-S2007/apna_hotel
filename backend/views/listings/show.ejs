@@ -110,7 +110,7 @@
 <%# ─── MapTiler SDK JS + map init — at the very bottom of file ─── %>
 <script src="https://cdn.maptiler.com/maptiler-sdk-js/latest/maptiler-sdk.umd.js"></script>
 <script>
-    const MAPTILER_KEY = "<%= process.env.MAPTILER_API_KEY %>";
+    const MAPTILER_KEY = "<%= MAPTILER_API_KEY %>";
     const locationQuery = "<%= listing.location %>, <%= listing.country %>";
 
     maptilersdk.config.apiKey = MAPTILER_KEY;

@@ -20,8 +20,7 @@
       <!-- Right -->
        <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listings/new">Airbnb your home</a>
-        <!-- TEMP DEBUG -->
-        <span class="nav-link"><%= JSON.stringify(locals.currUser) %></span>
+
                 <% if(currUser) { %>
             <a class="nav-link" href="/logout"><b>Log out</b></a>
           <% } else { %>

@@ -1,110 +1,209 @@
-body{
+:root {
+  --bg-body: #15202B;      /* Dark Mode (Background) */
+  --bg-surface: #14171A;   /* Dark Background / Text container */
+  --border-color: #AAB8C2; /* Light Gray (Borders/Icons) */
+  --text-main: #FFFFFF;    /* Main Text color */
+  --text-muted: #AAB8C2;   /* Secondary Text / Icons */
+  --accent: #fe424d;       /* Brand Accent Red */
+  --accent-hover: #e03b44;
+}
+
+body {
   font-family: "Plus Jakarta Sans", sans-serif !important; 
   display: flex;
   flex-direction: column; 
   min-height: 100vh;
+  background-color: var(--bg-body) !important;
+  color: var(--text-main) !important;
 }
-.container{
-    flex: 1;
+
+.container {
+  flex: 1;
 }
+
+/* Typography and common dark rules */
+h1, h2, h3, h4, h5, h6, .card-title, .card-text {
+  color: var(--text-main) !important;
+}
+p, span, label, legend, b, i {
+  color: var(--text-main);
+}
+.text-muted {
+  color: var(--text-muted) !important;
+}
+hr {
+  border-color: var(--border-color) !important;
+  opacity: 0.3 !important;
+}
+
 /* header */
-.navbar{
-    height: 5 rem;
-    background-color: white;
+.navbar {
+  height: 5rem;
+  background-color: var(--bg-surface) !important;
+  border-bottom: 1px solid rgba(170, 184, 194, 0.3) !important;
 }
  
-.fa-compass{
-    color: #fe424d;
-    font-size: 2 rem;
-
+.fa-compass {
+  color: var(--accent);
+  font-size: 2rem;
 }
 
 .nav-link {
-    color: #000000 !important;
+  color: var(--text-main) !important;
+}
+.nav-link:hover {
+  color: var(--text-muted) !important;
 }
 
 /* footer */
 .f-info-links a {
-    text-decoration: none;
-    color:black;
+  text-decoration: none;
+  color: var(--text-muted) !important;
 }
 .f-info-links a:hover {
-    text-decoration: underline;
+  color: var(--text-main) !important;
+  text-decoration: underline;
 }
-.f-info-links ,.f-info-socials,.f-info-brand{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
+.f-info-links, .f-info-socials, .f-info-brand {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.f-info-socials i{
-    font-size: 1.2rem;
-    margin-right: 1rem;
+.f-info-socials i {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  margin-right: 1rem;
+}
+.f-info-socials i:hover {
+  color: var(--text-main);
+}
+.f-info-brand {
+  color: var(--text-muted) !important;
 }
 
 .f-info {
-    text-align: center;
-    height: 8rem;
-    background-color: #ebebeb;
-    display: flex;
-    justify-content: center;
-    align-items: space-evenly;
-    flex-wrap: wrap;
+  text-align: center;
+  height: 8rem;
+  background-color: var(--bg-surface) !important;
+  border-top: 1px solid rgba(170, 184, 194, 0.3) !important;
+  display: flex;
+  justify-content: center;
+  align-items: space-evenly;
+  flex-wrap: wrap;
 }
 
 /* cards */
-.listing-card{
-    border: none !important;
-    margin-bottom: 2rem;
+.listing-card {
+  border: none !important;
+  margin-bottom: 2rem;
+  background-color: transparent !important;
 }
 
-.card-img-top{
-    border-radius:1rem !important ;
-    width: 100% !important;
-    object-fit: cover !important;
+.card {
+  background-color: var(--bg-surface) !important;
+  border: 1px solid rgba(170, 184, 194, 0.3) !important;
+  color: var(--text-main) !important;
 }
-.card-body{
-    padding: 0 !important;
+
+.card-img-top {
+  border-radius: 1rem !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+.card-body {
+  padding: 0 !important;
+  background-color: transparent !important;
 }
 .card-text-p {
-    font-weight: 400;
+  font-weight: 400;
 }
 
-.listing-link{
-    text-decoration: none;
+.listing-link {
+  text-decoration: none;
 }
 
 /* card effect */
-.card-img-overlay{
-    opacity: 0;
+.card-img-overlay {
+  opacity: 0;
 }
-.card-img-overlay:hover{
-    opacity: 0.2;
-    background-color: white;
+.card-img-overlay:hover {
+  opacity: 0.1;
+  background-color: white;
 }
- /* new page */
-.add-btn{
-    background-color: #fe424d !important;
-    border: none !important;
+
+/* Form Styling */
+.form-control, .form-select, input[type="text"], input[type="password"], input[type="email"], textarea {
+  background-color: var(--bg-surface) !important;
+  color: var(--text-main) !important;
+  border: 1px solid rgba(170, 184, 194, 0.5) !important;
+}
+.form-control::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.7;
+}
+.form-control:focus, .form-select:focus, input:focus, textarea:focus {
+  background-color: var(--bg-surface) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: 0 0 0 0.25rem rgba(170, 184, 194, 0.25) !important;
+}
+.form-label, .form-lable {
+  color: var(--text-main) !important;
+}
+
+/* Buttons */
+.add-btn, .edit-btn {
+  background-color: var(--accent) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+.add-btn:hover, .edit-btn:hover {
+  background-color: var(--accent-hover) !important;
+}
+
+.btn-outline-dark {
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+.btn-outline-dark:hover {
+  background-color: var(--border-color) !important;
+  color: var(--bg-surface) !important;
+}
+
+.btn-dark {
+  background-color: var(--bg-surface) !important;
+  color: var(--text-main) !important;
+  border: 1px solid rgba(170, 184, 194, 0.5) !important;
+}
+.btn-dark:hover {
+  background-color: var(--border-color) !important;
+  color: var(--bg-surface) !important;
+}
+
+/* new page */
+.add-btn {
+  background-color: var(--accent) !important;
+  border: none !important;
 }
 
 /* edit page */
-.edit-btn{
-    background-color: #fe424d !important;
-    border: none !important;
+.edit-btn {
+  background-color: var(--accent) !important;
+  border: none !important;
 }
 
 /* show page */
-.show-img{
-height: 30vh;
+.show-img {
+  height: 30vh;
 }
-.btns{
-    display: flex;
-}
-
-.show-card{
-    padding-left:0 ;
-    padding-right: 0;
+.btns {
+  display: flex;
 }
 
+.show-card {
+  padding-left: 0;
+  padding-right: 0;
+  background-color: transparent !important;
+  border: none !important;
+}

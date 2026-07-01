@@ -34,8 +34,8 @@ module.exports.showListing= async(req,res)=>{ // 1. req from index route 2. take
 module.exports.createListing=async(req,res,next)=>{  // 1. all data will come in the body 2.exract and use mongodb single insert command
  // {title,description,img....location}=req.body old method
  //let listing=req.body.listing;
-let url=req.file.path;
-let filename= req.file.filename;
+let url = req.file ? req.file.path : "https://images.unsplash.com/photo-1674981959759-b6d2f9657f64?q=80&w=1025&auto=format&fit=crop";
+let filename = req.file ? req.file.filename : "default";
 console.log(url,"..",filename);
 
  listingSchema.validate(req.body);
